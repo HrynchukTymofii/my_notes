@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "626402380391",
+    "project_id": "ajgdhfuashdfljksadf",
+    "storage_bucket": "ajgdhfuashdfljksadf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626402380391:android:7812a44facdd7cebf4e2c2",
+        "android_client_info": {
+          "package_name": "com.fibipals.mynotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaGpuPRWLMq1Nz-kQPqAo2KaT8_5UsFlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
