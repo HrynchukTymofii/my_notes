@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mynotes/firebase_options.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -35,87 +33,84 @@ class _RegisterViewState extends State<RegisterView> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF1D2671), // Deep blue
-              Color(0xFFC33764), // Dark pink
-              Color(0xFF0F9B8E), // Teal green
-              Color(0xFF64379F), // Violet
+              Color(0xFF240046), // Dark violet
+              Color(0xFF5A189A), // Purple
+              Color(0xFF9D4EDD), // Light purple
+              Color(0xFF3C096C), // Darker purple
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
-        child: FutureBuilder(
-          future: Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform,
-          ),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                return Center(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Register',
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 40),
-                          _buildGlassInputField(
-                            controller: _email,
-                            hintText: "Enter your email here",
-                            icon: Icons.email,
-                          ),
-                          const SizedBox(height: 20),
-                          _buildGlassInputField(
-                            controller: _password,
-                            hintText: "Enter your password here",
-                            icon: Icons.lock,
-                            obscureText: true,
-                          ),
-                          const SizedBox(height: 30),
-                          _buildGlassButton(
-                            onPressed: () async {
-                              final email = _email.text;
-                              final password = _password.text;
-                              try {
-                                final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                  email: email,
-                                  password: password,
-                                );
-                                print(userCredential);
-                              } on FirebaseAuthException catch (e) {
-                                if (e.code == 'weak-password') {
-                                  print('Weak password');
-                                } else if (e.code == 'email-already-in-use') {
-                                  print('Email already used');
-                                } else if (e.code == 'invalid-email') {
-                                  print('Invalid email');
-                                }
-                              }
-                            },
-                            text: 'Register',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              default:
-                return const Center(
-                  child: CircularProgressIndicator(
+        child: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Register',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
-                );
-            }
-          },
+                ),
+                const SizedBox(height: 40),
+                _buildGlassInputField(
+                  controller: _email,
+                  hintText: "Enter your email here",
+                  icon: Icons.email,
+                ),
+                const SizedBox(height: 20),
+                _buildGlassInputField(
+                  controller: _password,
+                  hintText: "Enter your password here",
+                  icon: Icons.lock,
+                  obscureText: true,
+                ),
+                const SizedBox(height: 30),
+                _buildGlassButton(
+                  onPressed: () async {
+                    final email = _email.text;
+                    final password = _password.text;
+                    try {
+                      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      );
+                      print(userCredential);
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'weak-password') {
+                        print('Weak password');
+                      } else if (e.code == 'email-already-in-use') {
+                        print('Email already used');
+                      } else if (e.code == 'invalid-email') {
+                        print('Invalid email');
+                      }
+                    }
+                  },
+                  text: 'Register',
+                ),
+                TextButton(
+                  onPressed: (){
+                    Navigator.of(context).pushNamedAndRemoveUntil('/login/', (route) => false,);
+                  }, 
+                  child: const Text(
+                    "Already registered? Login here!", 
+                    style: TextStyle(
+                      color: Colors.white, 
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                    )
+                  )
+                )
+              ],
+            ),
+          ),
         ),
+      ),
       ),
     );
   }

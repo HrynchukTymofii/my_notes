@@ -1,7 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mynotes/firebase_options.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -39,76 +37,74 @@ class _LoginViewState extends State<LoginView> {
               Color(0xFF5A189A), // Purple
               Color(0xFF9D4EDD), // Light purple
               Color(0xFF3C096C), // Darker purple
-              Color(0xFF1B4332), // Dark green
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
-        child: Center(
-          child: FutureBuilder(
-            future: Firebase.initializeApp(
-              options: DefaultFirebaseOptions.currentPlatform,
+         child: Center(
+        child:SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Login',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.done:
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            'Login',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          _buildGlassInputField(
-                            controller: _email,
-                            hintText: 'Enter your email here',
-                            icon: Icons.email_outlined,
-                          ),
-                          const SizedBox(height: 20),
-                          _buildGlassInputField(
-                            controller: _password,
-                            hintText: 'Enter your password here',
-                            icon: Icons.lock_outline,
-                            obscureText: true,
-                          ),
-                          const SizedBox(height: 30),
-                          _buildGlassButton(
-                            onPressed: () async {
-                              final email = _email.text;
-                              final password = _password.text;
-                              try {
-                                final userCredential = await FirebaseAuth.instance
-                                    .signInWithEmailAndPassword(
-                                  email: email,
-                                  password: password,
-                                );
-                                print(userCredential);
-                              } on FirebaseAuthException catch (e) {
-                                print(e.code);
-                              }
-                            },
-                            text: 'Login',
-                          ),
-                        ],
-                      ),
-                    ),
+            const SizedBox(height: 30),
+            _buildGlassInputField(
+              controller: _email,
+              hintText: 'Enter your email here',
+              icon: Icons.email_outlined,
+            ),
+            const SizedBox(height: 20),
+            _buildGlassInputField(
+              controller: _password,
+              hintText: 'Enter your password here',
+              icon: Icons.lock_outline,
+              obscureText: true,
+            ),
+            const SizedBox(height: 30),
+            _buildGlassButton(
+              onPressed: () async {
+                final email = _email.text;
+                final password = _password.text;
+                try {
+                  final userCredential = await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                    email: email,
+                    password: password,
                   );
-                default:
-                  return const CircularProgressIndicator(color: Colors.white);
-              }
-            },
-          ),
+                  print(userCredential);
+                } on FirebaseAuthException catch (e) {
+                  print(e.code);
+                }
+              },
+              text: 'Login',
+            ),
+            TextButton(
+              onPressed: (){
+                Navigator.of(context).pushNamedAndRemoveUntil('/register/', (route) => false,);
+              }, 
+              child: const Text(
+                "Not registered? Register here!", 
+                style: TextStyle(
+                  color: Colors.white, 
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal,
+                )
+              )
+            )
+          ],
         ),
       ),
+        )))
     );
   }
 
